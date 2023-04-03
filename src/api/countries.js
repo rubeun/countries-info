@@ -23,7 +23,7 @@ const apiCall = async queryURL => {
 }
 
 // Returns an array of countries from either all regions or specific regions, defaults to all regions
-export const searchCountries = async (
+export const searchByRegion = async (
   region = 'all'
 ) => {
   let queryURL = '';
@@ -32,6 +32,14 @@ export const searchCountries = async (
   } else  {
     queryURL = `${apiURL}/region/${region}?fields=name,population,region,capital,flags`;
   }
+  return apiCall(queryURL);
+};
+
+// Returns an array of country names suggestions based on partial or complete country name
+export const searchCountrySuggestions = async (
+  countryNameSearch
+) => {
+  const queryURL = `${apiURL}/name/${countryNameSearch}?fields=name`;
   return apiCall(queryURL);
 };
 
@@ -49,4 +57,4 @@ export const countryInfo = async (
     return false;
   }
   return apiCall(queryURL);
-}
+};
