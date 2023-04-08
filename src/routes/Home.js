@@ -6,16 +6,22 @@ import SearchBox from '../components/SearchBox';
 const Home = () => {
   const [region, setRegion] = useState("all");
   const [countriesArr, setCountriesArr] = useState([]);  
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
   const handleChangeRegion = newRegion => {
-    console.log("Set New Region:" + newRegion);
     setRegion(newRegion);
+  }
+
+  const handleFilterCountries = countryNameSearch => {
+    let filteredCountriesArr = countriesArr.filter(country => country.name.common.toLowerCase().includes(countryNameSearch.toLowerCase()))
+    setFilteredCountries(filteredCountriesArr);
   }
 
   useEffect(() => {
     const search = async () => {
       const countries = await searchByRegion(region);
       setCountriesArr(countries);
+      setFilteredCountries(countries);
     }
     search();
   },[region]);
@@ -23,11 +29,11 @@ const Home = () => {
 
   return (
     <>
-      <SearchBox />
+      <SearchBox handleFilterCountries={handleFilterCountries} />
       <RegionFilter handleChangeRegion={handleChangeRegion} />
       <ol>
-        {countriesArr.length > 0 ?
-          countriesArr.map((country, index) => {
+        {filteredCountries.length > 0 ?
+          filteredCountries.map((country, index) => {
             return (<li key={index}><a href={`/country/${country.name.common}`}>{country.name.common}</a></li>)
           })
           :

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const SearchBox = () => {
+const SearchBox = ({ handleFilterCountries }) => {
   const [countryNameSearch, setCountryNameSearch] = useState("");
 
   const handleSearch = (e) => {
     setCountryNameSearch(e.target.value);
+    handleFilterCountries(e.target.value);
   }
 
   return (
