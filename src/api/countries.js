@@ -43,15 +43,25 @@ export const searchCountrySuggestions = async (
   return apiCall(queryURL);
 };
 
-// Returns more detailed info on a single country based on either country name or country code, if neither provided, returns false
-export const countryInfo = async (
-  countryName,
-  countryCode
+// Returns more detailed info on a single country based on country name, if none provided, returns false
+export const countryInfoByName = async (
+  countryName
 ) => {
   let queryURL = "";
   if (typeof countryName !== "undefined") {
     queryURL = `${apiURL}/name/${countryName}?fields=name,population,region,subregion,capital,currencies,languages,flags,tld`;
-  } else if (typeof countryCode !== "undefined") {
+  } else {
+    return false;
+  }
+  return apiCall(queryURL);
+};
+
+// Returns more detailed info on a single country based on country code, if none provided, returns false
+export const countryInfoByCode = async (
+  countryCode
+) => {
+  let queryURL = "";
+  if (typeof countryCode !== "undefined") {
     queryURL = `${apiURL}/alpha/${countryCode}?fields=name,population,region,subregion,capital,currencies,languages,flags,tld`;
   } else {
     return false;
